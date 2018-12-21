@@ -3,23 +3,49 @@ import React from 'react';
 class OccurrencesTab extends React.Component {
 	constructor(props) {
 		super(props);
-
+		this.tabJSXCreator = this.tabJSXCreator.bind(this);
+		this.state = { 
+			selectedTab: '',
+			tabColors: ['primary','success','dark'],
+			tabActivity: ['','','']
+		}
 	}
 
+	tabJSXCreator(types,tabColors,tabActivity) {
+		if (types === 0) {
+			return <div></div>;
+		}
+
+		console.log(tabActivity);
+
+
+		return types.map((type,i) => {
+			const isActive = (i === 0) ? 'active' : '';
+			return (
+					<a
+						key={i} 
+						className={`nav-item nav-link flex-sm-fill text-sm-center btn-outline-${this.state.tabColors[i]} ${isActive}`} 
+						id="events-tab" 
+						data-toggle="tab" 
+						href="#events" 
+						role="tab" 
+						aria-controls="events" 
+						aria-selected="true"
+						onClick={e => this.props.onTabSelect(e)}
+					>
+						{type}	
+					</a>
+			);
+		});
+	}
 
 	render() {
 		return (
-			<a 
-				className="btn btn-primary" 
-				data-toggle="collapse" 
-				href="#onlyOneContainer" 
-				role="button" 
-				aria-expanded="false" 
-				aria-controls="onlyOneContainer"
-				onClick={e => this.props.onTabSelect(e)}
-			>
-				Events
-			</a>
+				<nav className="nav-pills flex-column flex-sm-row">
+					<div className="nav nav-tabs" id="nav-tab" role="tablist">
+						{this.tabJSXCreator(this.props.types,this.state.tabColors,this.state.tabActivity)}
+					</div>
+				</nav>
 		);
 	}
 };

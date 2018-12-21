@@ -29,7 +29,7 @@ class SearchBar extends React.Component {
 				  	value={this.state.input}
 				  />
 				  <div className="input-group-append">
-				    <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+				    <button className="btn btn-outline-primary" type="submit" id="button-addon2">Search</button>
 				  </div>
 				</div>
 			</form>

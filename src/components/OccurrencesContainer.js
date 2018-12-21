@@ -15,30 +15,30 @@ class OccurrencesContainer extends React.Component {
 
 	occurrencesJSXCreator(occurrencesObj,selectedTab) {
 		if (!Object.keys(occurrencesObj).length) {
-			return <div>There is no data yet</div>; 
-		} else if (!selectedTab) {
-			return <div>Tab has not been selected</div>;
-		};
+			return <div></div>; 
+		}
 		
 		const occurrences = occurrencesObj.data[selectedTab];
 		// console.log(occurrences);
 		
 
 
-		return occurrences.map(occurrence => (<Occurrence 
-												occurrence={occurrence} 
-												date={occurrencesObj.date} 
-												className="occurrence"
-									   />));
+		return occurrences.map((occurrence,i) => {
+			return (<Occurrence 
+						className="occurrence"
+						occurrence={occurrence} 
+						date={occurrencesObj.date} 
+	    	   	   	/>);
+		});
 	};
 
 	render() {
 		return (
-			<div className="collapse multi-collapse" id="onlyOneContainer">
-		      <div className="card card-body occurrences-container">
-		        {this.occurrencesJSXCreator(this.props.occurrences,this.props.selectedTab)}
-		      </div>
-		    </div>
+			<div className="tab-content occurrences-container" id="nav-tabContent">
+				<div className={`tab-pane fade show active`} id="events" role="tabpanel" aria-labelledby="events-tab">
+				  	{this.occurrencesJSXCreator(this.props.occurrences,this.props.selectedTab)}
+			  	</div>
+			</div>
 		);
 	}
 }

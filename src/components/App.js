@@ -21,7 +21,8 @@ class App extends React.Component {
 
 		this.state = {
 			occurrences: {},
-			selectedTab: ''
+			selectedTab: 'Events',
+			types: []
 		}
 	}
 
@@ -45,8 +46,17 @@ class App extends React.Component {
 		}
 
 		const response = await todayInHistory.get(`/${date}`);
-		console.log(response.data);
-		this.setState({ occurrences: response.data });
+		console.log(Object.keys(response.data.data).map((typeName,i) => {
+			return ({
+				typeName,
+				typeColor: ['primary','success','dark'][i],
+				isTabActive: false
+			})
+		}));
+		this.setState({ 
+			occurrences: response.data,
+			types: Object.keys(response.data.data)
+		});
 	}
 
 	render() {
@@ -54,10 +64,10 @@ class App extends React.Component {
 			<div className="container">
 				<h1 className="title">Today In History</h1>
 				<SearchBar onSearchSubmit={this.onSearchSubmit} />
-				<hr />
-				<p>
-					<OccurrencesTab onTabSelect={this.onTabSelect} />
-				</p>
+				<OccurrencesTab 
+					onTabSelect={this.onTabSelect} 
+					types={this.state.types}
+				/>
 				<div className="row">
 					<div className="col">
 						<OccurrencesContainer 
