@@ -6,17 +6,15 @@ class OccurrencesTab extends React.Component {
 		this.tabJSXCreator = this.tabJSXCreator.bind(this);
 		this.state = { 
 			selectedTab: '',
-			tabColors: ['primary','success','dark'],
+			tabColors: ['info','success','dark'],
 			tabActivity: ['','','']
 		}
 	}
 
 	tabJSXCreator(types,tabColors,tabActivity) {
-		if (types === 0) {
+		if (types === 0 || !types) {
 			return <div></div>;
 		}
-
-		console.log(tabActivity);
 
 
 		return types.map((type,i) => {

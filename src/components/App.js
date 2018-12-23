@@ -33,30 +33,37 @@ class App extends React.Component {
 
 	async onSearchSubmit(e,date) {
 		e.preventDefault();
-		todayInHistory.interceptors.request.use(config => {
-			// TODO: Display a message that says the program is processing the data
-			return config;
-		}, err => {
-			// TODO: Display a message that says the program is having an issue
-			return Promise.reject(err);
-		});
+		try {
+			todayInHistory.interceptors.request.use(config => {
+				this.setState({ 
+					occurrences: null,
+					types: null
+				})
+				return config;
+			}, err => {
+				console.log(typeof(err));
+				this.setState({
+					occurrences: { errorMessage: err.message },
+					types: null
+				});
 
-		if (!Object.keys(date).length) {
-			return "NO!";
+				return Promise.reject(err);
+			});
+
+			const response = await todayInHistory.get(`/${date}`);
+			this.setState({ 
+				occurrences: response.data,
+				types: Object.keys(response.data.data)
+			});
+		} catch(error) {
+			console.log(error.message);
+			this.setState({
+				occurrences: { errorMessage: error.message },
+				types: null
+			});
 		}
 
-		const response = await todayInHistory.get(`/${date}`);
-		console.log(Object.keys(response.data.data).map((typeName,i) => {
-			return ({
-				typeName,
-				typeColor: ['primary','success','dark'][i],
-				isTabActive: false
-			})
-		}));
-		this.setState({ 
-			occurrences: response.data,
-			types: Object.keys(response.data.data)
-		});
+		
 	}
 
 	render() {

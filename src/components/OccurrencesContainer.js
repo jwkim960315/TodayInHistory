@@ -14,7 +14,13 @@ class OccurrencesContainer extends React.Component {
 	}
 
 	occurrencesJSXCreator(occurrencesObj,selectedTab) {
-		if (!Object.keys(occurrencesObj).length) {
+		if (!occurrencesObj) {
+			return <div>Data Loading...</div>;
+		} else if (Object.keys(occurrencesObj)[0] === 'errorMessage') {
+			return <div>{occurrencesObj.errorMessage}</div>;
+		}
+
+		else if (!Object.keys(occurrencesObj).length) {
 			return <div></div>; 
 		}
 		
