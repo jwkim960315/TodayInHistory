@@ -41,7 +41,6 @@ class App extends React.Component {
 				})
 				return config;
 			}, err => {
-				console.log(typeof(err));
 				this.setState({
 					occurrences: { errorMessage: err.message },
 					types: null
@@ -56,7 +55,6 @@ class App extends React.Component {
 				types: Object.keys(response.data.data)
 			});
 		} catch(error) {
-			console.log(error.message);
 			this.setState({
 				occurrences: { errorMessage: error.message },
 				types: null
