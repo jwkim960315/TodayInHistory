@@ -2,6 +2,5 @@ import axios from 'axios';
 
 
 export default axios.create({
-	baseURL: 'https://history.muffinlabs.com/date',
-	crossdomain: true
+	baseURL: `${'https://cors-anywhere.herokuapp.com/'}https://history.muffinlabs.com/date`
 });
