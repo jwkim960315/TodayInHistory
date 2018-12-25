@@ -3,27 +3,27 @@ import React from 'react';
 import Occurrence from './Occurrence';
 
 
-const occurrencesJSXCreator = (twoOccurrencesArr,date) => {
-	
+const occurrencesJSXCreator = (twoOccurrencesArr, date) => {
 
-	const result = twoOccurrencesArr.map((occurrenceArr,i) => {
-		return (<Occurrence key={i} 
-			className="occurrence"
-			occurrence={occurrenceArr}
-			date={date}
-		/>)
-	})
-	console.log(result);
-	return result;
+
+    const result = twoOccurrencesArr.map((occurrenceArr, i) => {
+        return (<Occurrence key={i} 
+            className="occurrence"
+            occurrence={occurrenceArr}
+            date={date}
+        />)
+    })
+
+    return result;
 
 }
 
 const OccurrencesGroup = props => {
-	return (
-		<div className="row">
-			{occurrencesJSXCreator(props.twoOccurrencesArr,props.date)}
-		</div>
-	);
+    return (
+        <div className="row">
+            {occurrencesJSXCreator(props.twoOccurrencesArr,props.date)}
+        </div>
+    );
 };
 
 export default OccurrencesGroup;

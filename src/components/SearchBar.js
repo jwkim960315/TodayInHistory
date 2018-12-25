@@ -1,23 +1,23 @@
 import React from 'react';
 
 class SearchBar extends React.Component {
-	constructor(props) {
-		super(props);
-		this.onInputChange = this.onInputChange.bind(this);
+    constructor(props) {
+        super(props);
+        this.onInputChange = this.onInputChange.bind(this);
 
-		this.state = {
-			date: ''
-		}
-	}
+        this.state = {
+            date: ''
+        }
+    }
 
 
-	onInputChange(e) {
-		this.setState({ date: e.target.value });
-	}
+    onInputChange(e) {
+        this.setState({ date: e.target.value });
+    }
 
-	render() {
-		return (
-			<form onSubmit={e => this.props.onSearchSubmit(e,this.state.date)}>
+    render() {
+        return (
+            <form onSubmit={e => this.props.onSearchSubmit(e,this.state.date)}>
 				<div className="input-group mb-3">
 				  <input 
 				  	type="text" 
@@ -33,8 +33,8 @@ class SearchBar extends React.Component {
 				  </div>
 				</div>
 			</form>
-		);
-	}
+        );
+    }
 };
 
 export default SearchBar;
