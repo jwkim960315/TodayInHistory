@@ -4,42 +4,47 @@ import '../css/OccurrencesContainer.css';
 import React from 'react';
 
 // Components
-import Occurrence from './Occurrence';
+// import Occurrence from './Occurrence';
+import OccurrencesGroup from './OccurrencesGroup';
 
 
 class OccurrencesContainer extends React.Component {
 	constructor(props) {
 		super(props);
-		this.occurrencesJSXCreator = this.occurrencesJSXCreator.bind(this);
+		this.occurrencesGroupJSXCreator = this.occurrencesGroupJSXCreator.bind(this);
 	}
 
-	occurrencesJSXCreator(occurrencesObj,selectedTab) {
-		if (!occurrencesObj) {
+	occurrencesGroupJSXCreator(occurrences,selectedTab) {
+		if (!occurrences) {
 			return <div>Data Loading...</div>;
-		} else if (Object.keys(occurrencesObj)[0] === 'errorMessage') {
-			return <div>{occurrencesObj.errorMessage}</div>;
-		}
+		} else if (!Object.keys(occurrences).length) {
+			return <div></div>;
+		} else if (Object.keys(occurrences)[0] === 'errorMessage') {
+			return <div>{occurrences.errorMessage}</div>;
+		} 
 
-		else if (!Object.keys(occurrencesObj).length) {
-			return <div></div>; 
-		}
-		
-		const occurrences = occurrencesObj.data[selectedTab];
+		const date = occurrences.date;
+		occurrences = occurrences.data[selectedTab];
+		const occurrencesContainer = [];
+		let tempList = [];
+		for (let i=0;i<occurrences.length;i++) {
+			tempList.push(occurrences[i]);
+			if ((i%2 === 1 && i !== 0) || i === this.props.occurrences.length-1) {	
+				occurrencesContainer.push(<OccurrencesGroup twoOccurrencesArr={tempList} date={date} />);
+				tempList = [];
+			}
 
-		return occurrences.map((occurrence,i) => {
-			return (<Occurrence key={i}
-						className="occurrence"
-						occurrence={occurrence} 
-						date={occurrencesObj.date} 
-	    	   	   	/>);
-		});
-	};
+
+
+		}
+		return occurrencesContainer;
+	}
 
 	render() {
 		return (
 			<div className="tab-content occurrences-container" id="nav-tabContent">
 				<div className={`tab-pane fade show active`} id="events" role="tabpanel" aria-labelledby="events-tab">
-				  	{this.occurrencesJSXCreator(this.props.occurrences,this.props.selectedTab)}
+				  	{this.occurrencesGroupJSXCreator(this.props.occurrences,this.props.selectedTab)}
 			  	</div>
 			</div>
 		);

@@ -27,7 +27,6 @@ class App extends React.Component {
 	}
 
 	onTabSelect(e) {
-		console.log(e.target.innerHTML);
 		this.setState({ selectedTab: e.target.innerHTML });
 	}
 
