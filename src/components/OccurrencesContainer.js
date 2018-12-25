@@ -4,7 +4,6 @@ import '../css/OccurrencesContainer.css';
 import React from 'react';
 
 // Components
-// import Occurrence from './Occurrence';
 import OccurrencesGroup from './OccurrencesGroup';
 
 
