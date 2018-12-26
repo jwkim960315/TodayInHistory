@@ -3,7 +3,6 @@ import React from 'react';
 class Pagination extends React.Component {
     constructor(props) {
         super(props);
-        this.onPagebuttonClick = this.onPagebuttonClick.bind(this);
         this.paginationDataHandlerJSX = this.paginationDataHandlerJSX.bind(this);
         this.paginationRenderHelper = this.paginationRenderHelper.bind(this);
         this.pageJSX = this.pageJSX.bind(this);
@@ -12,34 +11,28 @@ class Pagination extends React.Component {
             selectedPage: 1
         }
 
-        this.paginationRef = React.createRef();
-
     }
 
-    onPagebuttonClick(e) {
-        console.log(e.target.innerHTML);
-    }
+
 
     pageJSX(pageNum) {
         return (
-            <li ref={this.paginationRef} className="page-item" onClick={e => this.props.onPageSelect(e,this.paginationRef)}>
+            <li key={pageNum} className="page-item" onClick={e => this.props.onPageSelect(e)}>
             	<button className="page-link">
-            		{pageNum+1}
+            		{pageNum}
             	</button>
             </li>
         );
     }
 
-    paginationDataHandlerJSX(occurrences, selectedTab, numOfFactsPerPage, numOfPagesPerSection) {
-        const totalNumPages = Math.ceil(occurrences.length / numOfFactsPerPage);
-        const totalNumSections = Math.ceil(totalNumPages / numOfPagesPerSection);
+    paginationDataHandlerJSX(occurrences, selectedTab, paginationObj, numOfFactsPerPage, numOfPagesPerSection) {
 
         let jsxContainer = [];
-
-        for (let i = 0; i < numOfPagesPerSection; i++) {
-            if (i % numOfPagesPerSection === 0) {
+        // console.log(paginationObj);
+        for (let i = paginationObj.startingPageInThisSection; i <= paginationObj.endingPageInThisSection; i++) {
+            if (i === paginationObj.startingPageInThisSection) {
                 jsxContainer.push(
-                    <li ref={this.paginationRef} className="page-item" onClick={e => this.props.onPageSelect(e,this.paginationRef)}>
+                    <li key="previous" className="page-item" onClick={e => this.props.onPageSelect(e)}>
 				      <button className="page-link" aria-label="Previous">
 				        <span aria-hidden="true">&laquo;</span>
 				        <span className="sr-only">Previous</span>
@@ -47,16 +40,18 @@ class Pagination extends React.Component {
 				    </li>
                 );
                 jsxContainer.push(this.pageJSX(i));
-            } else if (i % numOfPagesPerSection === numOfPagesPerSection - 1) {
+
+            } else if (i === paginationObj.endingPageInThisSection) {
                 jsxContainer.push(this.pageJSX(i));
                 jsxContainer.push(
-                    <li ref={this.paginationRef} className="page-item" onClick={e => this.props.onPageSelect(e,this.paginationRef)}>
+                    <li key="next" className="page-item" onClick={e => this.props.onPageSelect(e)}>
 				      <button className="page-link" aria-label="Next">
 				        <span aria-hidden="true">&raquo;</span>
 				        <span className="sr-only">Next</span>
 				      </button> 
 				    </li>
                 );
+
             } else {
                 jsxContainer.push(this.pageJSX(i));
             }
@@ -67,7 +62,8 @@ class Pagination extends React.Component {
 
     }
 
-    paginationRenderHelper(occurrences, selectedTab) {
+    paginationRenderHelper(occurrences, selectedTab, paginationObj, numberOfFactsPerPageLimit, numberOfPagesPerSectionLimit) {
+        console.log(occurrences);
         if (!occurrences || Object.keys(occurrences)[0] === 'errorMessage' || !Object.keys(occurrences).length) {
             return <div></div>;
         } else if (!Object.keys(occurrences.data[selectedTab]).length) {
@@ -79,7 +75,7 @@ class Pagination extends React.Component {
         return (
             <nav aria-label="page-navigation">
 			  <ul className="pagination justify-content-center">
-			    {this.paginationDataHandlerJSX(occurrences,selectedTab,4,5)}
+			    {this.paginationDataHandlerJSX(occurrences,selectedTab,paginationObj,numberOfFactsPerPageLimit,numberOfPagesPerSectionLimit)}
 			  </ul>
 			</nav>
         );
@@ -88,7 +84,15 @@ class Pagination extends React.Component {
     render() {
 
 
-        return this.paginationRenderHelper(this.props.occurrences, this.props.selectedTab)
+        return (
+            this.paginationRenderHelper(
+                this.props.occurrences,
+                this.props.selectedTab,
+                this.props.paginationObj,
+                this.props.numberOfFactsPerPageLimit,
+                this.props.numberOfPagesPerSectionLimit
+            )
+        );
     }
 }
 

@@ -14,6 +14,7 @@ class OccurrencesContainer extends React.Component {
     }
 
     occurrencesGroupJSXCreator(occurrences, selectedTab) {
+        // console.log(occurrences);
         if (!occurrences) {
             return <div>Data Loading...</div>;
         } else if (!Object.keys(occurrences).length) {
