@@ -59,7 +59,7 @@ class App extends React.Component {
 
             const response = await todayInHistory.get(`/${date}`);
 
-            let occurrencesData = response.data.data[this.state.selectedTab];
+            let occurrencesData = response.data.data['Events'];
 
             const paginationObj = pagination(
                 this.state.totalNumberOfFacts,
