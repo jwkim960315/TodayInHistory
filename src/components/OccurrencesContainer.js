@@ -14,33 +14,38 @@ class OccurrencesContainer extends React.Component {
     }
 
     occurrencesGroupJSXCreator(occurrences, selectedTab, date, occurrencesInThisPage) {
-        if (!occurrences) {
-            return (
-                <div className="spinner text-center">
-                    <i className="fas fa-spinner fa-spin fa-10x"></i>
-                </div>
-            );
-        } else if (!Object.keys(occurrences).length) {
-            return <div></div>;
-        } else if (!Object.keys(occurrences.data[selectedTab]).length) {
-            return <div>There is no data!</div>;
-        } else if (Object.keys(occurrences)[0] === 'errorMessage') {
-            return <div>{occurrences.errorMessage}</div>;
-        }
-
-        const occurrencesContainer = [];
-        let tempList = [];
-        for (let i = 0; i < occurrencesInThisPage.length; i++) {
-            tempList.push(occurrencesInThisPage[i]);
-            if ((i % 2 === 1 && i !== 0) || i === this.props.occurrencesInThisPage.length - 1) {
-                occurrencesContainer.push(<OccurrencesGroup key={i} twoOccurrencesArr={tempList} date={date} />);
-                tempList = [];
+        try {
+            if (!occurrences) {
+                return (
+                    <div className="spinner text-center">
+                        <i className="fas fa-spinner fa-spin fa-10x"></i>
+                    </div>
+                );
+            } else if (!Object.keys(occurrences).length) {
+                return <div></div>;
+            } else if (!Object.keys(occurrences.data[selectedTab]).length) {
+                return <div className="error-message">There is no data!</div>;
+            } else if (Object.keys(occurrences)[0] === 'errorMessage') {
+                return <div className="error-message">{occurrences.errorMessage}</div>;
             }
 
+            const occurrencesContainer = [];
+            let tempList = [];
+            for (let i = 0; i < occurrencesInThisPage.length; i++) {
+                tempList.push(occurrencesInThisPage[i]);
+                if ((i % 2 === 1 && i !== 0) || i === this.props.occurrencesInThisPage.length - 1) {
+                    occurrencesContainer.push(<OccurrencesGroup key={i} twoOccurrencesArr={tempList} date={date} />);
+                    tempList = [];
+                }
 
 
+
+            }
+            return occurrencesContainer;
+        } catch (err) {
+            return <div className="error-message text-center">Invalid date. Please type in a correct date!</div>;
         }
-        return occurrencesContainer;
+
     }
 
     render() {

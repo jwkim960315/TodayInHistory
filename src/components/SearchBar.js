@@ -22,7 +22,7 @@ class SearchBar extends React.Component {
 				  <input 
 				  	type="text" 
 				  	className="form-control" 
-				  	placeholder="Please type in a date" 
+				  	placeholder="Please type in a date Ex) 1/3, 6/2" 
 				  	aria-label="date" 
 				  	aria-describedby="button-addon2" 
 				  	onChange={this.onInputChange}
