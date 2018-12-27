@@ -1,3 +1,6 @@
+// CSS
+import '../css/OccurrencesTab.css';
+
 import React from 'react';
 
 class OccurrencesTab extends React.Component {

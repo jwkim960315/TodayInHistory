@@ -1,16 +1,21 @@
 .title {
     text-align: center;
+    /*color: white;*/
 }
 
-/*body::after {
+body {
+    font-family: 'Varela Round', sans-serif;
+}
+
+body {
     content: "";
-    background: url(../images/double-decker-3283422_1920.jpg);
+    /*background: url(../images/double-decker-3283422_1920.jpg);*/
     background-repeat: repeat-y;
-    opacity: 0.35;
+    /*opacity: 0.35;*/
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     position: absolute;
     z-index: -1;
-}*/
+}

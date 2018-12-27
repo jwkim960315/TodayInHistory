@@ -14,9 +14,15 @@ class OccurrencesContainer extends React.Component {
     }
 
     occurrencesGroupJSXCreator(occurrences, selectedTab, date, occurrencesInThisPage) {
-        // console.log(occurrences);
+        console.log(occurrences);
         if (!occurrences) {
-            return <div>Data Loading...</div>;
+            return (
+                <div className="text-center">
+                    <i class="fas fa-spinner fa-spin fa-10x"></i>
+                </div>
+            );
+
+            // return <div>Data Loading...</div>;
         } else if (!Object.keys(occurrences).length) {
             return <div></div>;
         } else if (!Object.keys(occurrences.data[selectedTab]).length) {
