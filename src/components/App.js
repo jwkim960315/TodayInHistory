@@ -96,8 +96,16 @@ class App extends React.Component {
                 occurrencesInThisPage: paginatedOccurrencesList[0]
             });
         } catch (error) {
+
+            let errorMessage = 'Unknown Error';
+            const errorCode = error.message.slice(error.message.length - 3);
+
+            if (errorCode === '404' || errorCode === '500') {
+                errorMessage = 'Invalid input. Please type in a correct date!';
+            }
+
             this.setState({
-                occurrences: { errorMessage: error.message },
+                occurrences: { errorMessage },
                 types: null
             });
         }
