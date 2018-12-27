@@ -80,10 +80,8 @@ class Pagination extends React.Component {
     }
 
     paginationRenderHelper(occurrences, selectedTab, paginationObj, numberOfFactsPerPageLimit, numberOfPagesPerSectionLimit) {
-        if (!occurrences || Object.keys(occurrences)[0] === 'errorMessage' || !Object.keys(occurrences).length) {
+        if (!occurrences || Object.keys(occurrences)[0] === 'errorMessage' || !Object.keys(occurrences).length || !Object.keys(occurrences.data[selectedTab]).length) {
             return <div></div>;
-        } else if (!Object.keys(occurrences.data[selectedTab]).length) {
-            return <div>There is no Data!</div>;
         }
 
         occurrences = occurrences.data[selectedTab];

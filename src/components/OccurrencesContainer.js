@@ -23,10 +23,10 @@ class OccurrencesContainer extends React.Component {
                 );
             } else if (!Object.keys(occurrences).length) {
                 return <div></div>;
-            } else if (!Object.keys(occurrences.data[selectedTab]).length) {
-                return <div className="error-message">There is no data!</div>;
+            } else if (!occurrencesInThisPage) {
+                return <div className="error-message text-center">Nothing happened on this date!</div>;
             } else if (Object.keys(occurrences)[0] === 'errorMessage') {
-                return <div className="error-message">{occurrences.errorMessage}</div>;
+                return <div className="error-message text-center">{occurrences.errorMessage}</div>;
             }
 
             const occurrencesContainer = [];
