@@ -1,7 +1,3 @@
 .occurrences-container {
-	/*display: grid !important;
-	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;*/
-}
-
-.occurrences-container .occurrence {
+    margin-top: 40px;
 }

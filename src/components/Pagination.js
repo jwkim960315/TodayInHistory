@@ -1,3 +1,6 @@
+// CSS
+import '../css/Pagination.css';
+
 import React from 'react';
 
 class Pagination extends React.Component {
@@ -15,12 +18,14 @@ class Pagination extends React.Component {
 
 
 
-    pageJSX(pageNum) {
+    pageJSX(pageNum, currentPageNum) {
+
+        const currentPageActive = (pageNum === currentPageNum) ? 'active' : '';
         return (
-            <li key={pageNum} className="page-item" onClick={e => this.props.onPageSelect(e)}>
-            	<button className="page-link">
-            		{pageNum}
-            	</button>
+            <li key={pageNum} className={`page-item ${currentPageActive}`} onClick={e => this.props.onPageSelect(e)}>
+                <button className="page-link">
+                    {pageNum}
+                </button>
             </li>
         );
     }
@@ -28,38 +33,53 @@ class Pagination extends React.Component {
     paginationDataHandlerJSX(occurrences, selectedTab, paginationObj, numOfFactsPerPage, numOfPagesPerSection) {
 
         let jsxContainer = [];
-        // console.log(paginationObj);
+        console.log(paginationObj);
         for (let i = paginationObj.startingPageInThisSection; i <= paginationObj.endingPageInThisSection; i++) {
+
             if (i === paginationObj.startingPageInThisSection) {
-                jsxContainer.push(
-                    <li key="previous" className="page-item" onClick={e => this.props.onPageSelect(e)}>
-				      <button className="page-link" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				        <span className="sr-only">Previous</span>
-				      </button>
-				    </li>
-                );
-                jsxContainer.push(this.pageJSX(i));
+                console.log('Pagination Index: ', i);
+                console.log('First Index');
 
-            } else if (i === paginationObj.endingPageInThisSection) {
-                jsxContainer.push(this.pageJSX(i));
+                const previousButtonDisabled = (!paginationObj.startingPageInPreviousSection) ? 'disabled' : '';
+                const previousTabIndex = (!paginationObj.startingPageInNextSection) ? -1 : '';
+
                 jsxContainer.push(
-                    <li key="next" className="page-item" onClick={e => this.props.onPageSelect(e)}>
-				      <button className="page-link" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				        <span className="sr-only">Next</span>
-				      </button> 
-				    </li>
+                    <li key="previous" className={`page-item ${previousButtonDisabled}`} onClick={e => this.props.onPageSelect(e)}>
+                      <button className="page-link" aria-label="Previous" tabindex={`${previousTabIndex}`}>
+                        <span aria-hidden="true">&laquo;</span>
+                        <span className="sr-only">Previous</span>
+                      </button>
+                    </li>
                 );
 
-            } else {
-                jsxContainer.push(this.pageJSX(i));
+
             }
+
+            jsxContainer.push(this.pageJSX(i, this.props.currentPage));
+
+            if (i === paginationObj.endingPageInThisSection) {
+                console.log('Pagination Index: ', i);
+                console.log('Last Index');
+
+                const nextButtonDisabled = (!paginationObj.startingPageInNextSection) ? 'disabled' : '';
+                const nextTabIndex = (!paginationObj.startingPageInNextSection) ? -1 : '';
+
+                jsxContainer.push(
+                    <li key="next" className={`page-item ${nextButtonDisabled}`} onClick={e => this.props.onPageSelect(e)}>
+                      <button className="page-link" aria-label="Next" tabindex={`${nextTabIndex}`}>
+                        <span aria-hidden="true">&raquo;</span>
+                        <span className="sr-only">Next</span>
+                      </button> 
+                    </li>
+                );
+
+            }
+
+
+
+
         }
-
         return jsxContainer;
-
-
     }
 
     paginationRenderHelper(occurrences, selectedTab, paginationObj, numberOfFactsPerPageLimit, numberOfPagesPerSectionLimit) {
@@ -73,11 +93,11 @@ class Pagination extends React.Component {
         occurrences = occurrences.data[selectedTab];
 
         return (
-            <nav aria-label="page-navigation">
-			  <ul className="pagination justify-content-center">
-			    {this.paginationDataHandlerJSX(occurrences,selectedTab,paginationObj,numberOfFactsPerPageLimit,numberOfPagesPerSectionLimit)}
-			  </ul>
-			</nav>
+            <nav className="page-navigation" aria-label="page-navigation">
+              <ul className="pagination justify-content-center">
+                {this.paginationDataHandlerJSX(occurrences,selectedTab,paginationObj,numberOfFactsPerPageLimit,numberOfPagesPerSectionLimit)}
+              </ul>
+            </nav>
         );
     }
 

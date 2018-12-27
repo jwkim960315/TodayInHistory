@@ -32,10 +32,10 @@ class App extends React.Component {
             totalNumberOfFacts: null,
             numberOfFactsPerPageLimit: 4,
             numberOfPagesPerSectionLimit: 5,
-            displayingOccurrences: null,
             previousButtonDisabled: true,
             nextButtonDisabled: false,
-            paginationObj: {}
+            paginationObj: {},
+            paginatedOccurrencesList: []
         }
     }
 
@@ -70,17 +70,38 @@ class App extends React.Component {
                 this.state.currentPage
             );
 
-            const currentStartingPageIndex = 0;
+            let tempOccurrencesInThisPage = [];
+            let paginatedOccurrencesList = [];
 
-            const currentEndingPageIndex = paginationObj.endingPageInThisSection - 1;
+            console.log(occurrencesData.length);
+
+            for (let i = 0; i < occurrencesData.length; i++) {
+
+                if (i === 0 || i % 4 !== 0) {
+                    console.log(i);
+                    tempOccurrencesInThisPage.push(occurrencesData[i]);
+                } else {
+                    console.log(i);
+                    paginatedOccurrencesList.push(tempOccurrencesInThisPage);
+                    tempOccurrencesInThisPage = [occurrencesData[i]];
+                }
+
+                if (i === occurrencesData.length - 1) {
+                    paginatedOccurrencesList.push(tempOccurrencesInThisPage);
+                }
+            }
+
+            console.log(paginatedOccurrencesList);
+
 
             this.setState({
                 occurrences: response.data,
-                occurrencesInThisPage: occurrencesData.slice(currentStartingPageIndex, currentEndingPageIndex),
                 types: Object.keys(response.data.data),
                 date: response.data.date,
                 totalNumberOfFacts: occurrencesData.length,
-                paginationObj
+                paginationObj,
+                paginatedOccurrencesList,
+                occurrencesInThisPage: paginatedOccurrencesList[0]
             });
         } catch (error) {
             this.setState({
@@ -95,6 +116,25 @@ class App extends React.Component {
     onTabSelect(e) {
         let occurrencesData = this.state.occurrences.data[e.target.innerHTML];
 
+        let tempOccurrencesInThisPage = [];
+        let paginatedOccurrencesList = [];
+
+        for (let i = 0; i < occurrencesData.length; i++) {
+
+            if (i === 0 || i % 4 !== 0) {
+                console.log(i);
+                tempOccurrencesInThisPage.push(occurrencesData[i]);
+            } else {
+                console.log(i);
+                paginatedOccurrencesList.push(tempOccurrencesInThisPage);
+                tempOccurrencesInThisPage = [occurrencesData[i]];
+            }
+
+            if (i === occurrencesData.length - 1) {
+                paginatedOccurrencesList.push(tempOccurrencesInThisPage);
+            }
+        }
+
         const paginationObj = pagination(
             this.state.totalNumberOfFacts,
             this.state.numberOfFactsPerPageLimit,
@@ -106,7 +146,9 @@ class App extends React.Component {
             selectedTab: e.target.innerHTML,
             currentPage: 1,
             totalNumberOfFacts: occurrencesData.length,
-            paginationObj
+            paginationObj,
+            paginatedOccurrencesList,
+            occurrencesInThisPage: paginatedOccurrencesList[0]
         });
     }
 
@@ -128,7 +170,7 @@ class App extends React.Component {
 
 
 
-            console.log('startingPageInPreviousSection: ', this.state.paginationObj.startingPageInPreviousSection);
+
 
             // Check if there is a previous section
             if (!this.state.paginationObj.startingPageInPreviousSection) {
@@ -138,21 +180,28 @@ class App extends React.Component {
                 return;
             }
 
-            console.log('HERE!')
 
-            const previousStartingPageIndex = this.state.paginationObj.startingPageInPreviousSection - 1;
 
-            const previousEndingPageIndex = this.state.paginationObj.endingPageInPreviousSection - 1;
+
+
+            // console.log('startingPageInPreviousSection after clicking previous: ', paginationObj.startingPageInPreviousSection);
+
+
+            const occurrencesInThisPage = this.state.paginatedOccurrencesList[this.state.paginationObj.startingPageInPreviousSection - 1];
+
+            console.log('OccurrencesInThisPage after clicking previous: ', this.state.occurrencesInThisPage);
 
             this.setState({
-                currentPage: pagination.startingPageInPreviousSection,
+                currentPage: this.state.paginationObj.startingPageInPreviousSection,
                 paginationObj: pagination(
                     this.state.totalNumberOfFacts,
                     this.state.numberOfFactsPerPageLimit,
                     this.state.numberOfPagesPerSectionLimit,
                     this.state.paginationObj.startingPageInPreviousSection
-                )
+                ),
+                occurrencesInThisPage
             });
+
 
 
 
@@ -169,37 +218,48 @@ class App extends React.Component {
                 return;
             }
 
-            const nextStartingPageIndex = this.state.paginationObj.startingPageInNextSection - 1;
 
-            const nextEndingPageIndex = this.state.paginationObj.endingPageInNextSection - 1;
 
-            console.log('HERE!');
+            // console.log(paginationObj);
+
+            // console.log('startingPageInPreviousSection after clicking next: ', paginationObj.startingPageInNextSection);
+
+            const occurrencesInThisPage = this.state.paginatedOccurrencesList[this.state.paginationObj.startingPageInNextSection - 1];
+
+            console.log('OccurrencesInThisPage after clicking next: ', this.state.occurrencesInThisPage);
 
             this.setState({
-                currentPage: pagination.startingPageInNextSection,
+                currentPage: this.state.paginationObj.startingPageInNextSection,
                 paginationObj: pagination(
                     this.state.totalNumberOfFacts,
                     this.state.numberOfFactsPerPageLimit,
                     this.state.numberOfPagesPerSectionLimit,
                     this.state.paginationObj.startingPageInNextSection
-                )
+                ),
+                occurrencesInThisPage
             });
 
-            console.log(this.state.paginationObj);
+
 
         } else {
+
+            const occurrencesInThisPage = this.state.paginatedOccurrencesList[parseInt(innerText) - 1];
+
+            console.log('OccurrencesInThisPage after clicking a page: ', this.state.occurrencesInThisPage);
+
             this.setState({
                 paginationObj: pagination(
                     this.state.totalNumberOfFacts,
                     this.state.numberOfFactsPerPageLimit,
                     this.state.numberOfPagesPerSectionLimit,
                     parseInt(innerText)
-                )
+                ),
+                occurrencesInThisPage,
+                currentPage: parseInt(innerText)
             })
-        }
 
-        // console.log(this.state.currentPage);
-        // console.log('Total Number of Facts: ', this.state.totalNumberOfFacts);
+
+        }
     }
 
 
@@ -218,6 +278,8 @@ class App extends React.Component {
                         <OccurrencesContainer 
                             occurrences={this.state.occurrences}
                             selectedTab={this.state.selectedTab}
+                            date={this.state.date}
+                            occurrencesInThisPage={this.state.occurrencesInThisPage}
                         />
                     </div>
                 </div>
@@ -228,6 +290,7 @@ class App extends React.Component {
                     paginationObj={this.state.paginationObj}
                     numberOfFactsPerPageLimit={this.state.numberOfFactsPerPageLimit}
                     numberOfPagesPerSectionLimit={this.state.numberOfPagesPerSectionLimit}
+                    currentPage={this.state.currentPage}
                 />
             </div>
 

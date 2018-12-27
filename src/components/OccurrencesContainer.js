@@ -13,7 +13,7 @@ class OccurrencesContainer extends React.Component {
         this.occurrencesGroupJSXCreator = this.occurrencesGroupJSXCreator.bind(this);
     }
 
-    occurrencesGroupJSXCreator(occurrences, selectedTab) {
+    occurrencesGroupJSXCreator(occurrences, selectedTab, date, occurrencesInThisPage) {
         // console.log(occurrences);
         if (!occurrences) {
             return <div>Data Loading...</div>;
@@ -25,15 +25,16 @@ class OccurrencesContainer extends React.Component {
             return <div>{occurrences.errorMessage}</div>;
         }
 
-        const date = occurrences.date;
-        occurrences = occurrences.data[selectedTab];
 
+        // occurrences = occurrences.data[selectedTab];
+
+        console.log(occurrencesInThisPage);
 
         const occurrencesContainer = [];
         let tempList = [];
-        for (let i = 0; i < occurrences.length; i++) {
-            tempList.push(occurrences[i]);
-            if ((i % 2 === 1 && i !== 0) || i === this.props.occurrences.length - 1) {
+        for (let i = 0; i < occurrencesInThisPage.length; i++) {
+            tempList.push(occurrencesInThisPage[i]);
+            if ((i % 2 === 1 && i !== 0) || i === this.props.occurrencesInThisPage.length - 1) {
                 occurrencesContainer.push(<OccurrencesGroup key={i} twoOccurrencesArr={tempList} date={date} />);
                 tempList = [];
             }
@@ -48,7 +49,14 @@ class OccurrencesContainer extends React.Component {
         return (
             <div className="tab-content occurrences-container" id="nav-tabContent">
                 <div className={`tab-pane fade show active`} id="events" role="tabpanel" aria-labelledby="events-tab">
-                    {this.occurrencesGroupJSXCreator(this.props.occurrences,this.props.selectedTab)}
+                    {
+                        this.occurrencesGroupJSXCreator(
+                            this.props.occurrences,
+                            this.props.selectedTab,
+                            this.props.date,
+                            this.props.occurrencesInThisPage
+                        )
+                    }
                 </div>
             </div>
         );
