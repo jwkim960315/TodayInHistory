@@ -25,7 +25,7 @@ class SearchBar extends React.Component {
 				  	placeholder="Please type in a date" 
 				  	aria-label="date" 
 				  	aria-describedby="button-addon2" 
-				  	onChange={e => this.onInputChange(e)}
+				  	onChange={this.onInputChange}
 				  	value={this.state.input}
 				  />
 				  <div className="input-group-append">

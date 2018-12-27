@@ -1,6 +1,3 @@
-// CSS
-import '../css/OccurrencesTab.css';
-
 import React from 'react';
 
 class OccurrencesTab extends React.Component {
@@ -19,7 +16,6 @@ class OccurrencesTab extends React.Component {
             return <div></div>;
         }
 
-
         return types.map((type, i) => {
             const isActive = (i === 0) ? 'active' : '';
             return (
@@ -32,7 +28,7 @@ class OccurrencesTab extends React.Component {
 						role="tab" 
 						aria-controls="events" 
 						aria-selected="true"
-						onClick={e => this.props.onTabSelect(e)}
+						onClick={this.props.onTabSelect}
 					>
 						{type}	
 					</a>

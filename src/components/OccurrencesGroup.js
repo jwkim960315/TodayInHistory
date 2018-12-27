@@ -1,10 +1,10 @@
 import React from 'react';
 
+// Components
 import Occurrence from './Occurrence';
 
 
 const occurrencesJSXCreator = (twoOccurrencesArr, date) => {
-
 
     const result = twoOccurrencesArr.map((occurrenceArr, i) => {
         return (<Occurrence key={i} 

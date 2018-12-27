@@ -59,8 +59,6 @@ class App extends React.Component {
 
             const response = await todayInHistory.get(`/${date}`);
 
-            // console.log(response.data);
-
             let occurrencesData = response.data.data[this.state.selectedTab];
 
             const paginationObj = pagination(
@@ -73,15 +71,11 @@ class App extends React.Component {
             let tempOccurrencesInThisPage = [];
             let paginatedOccurrencesList = [];
 
-            console.log(occurrencesData.length);
-
             for (let i = 0; i < occurrencesData.length; i++) {
 
                 if (i === 0 || i % 4 !== 0) {
-                    console.log(i);
                     tempOccurrencesInThisPage.push(occurrencesData[i]);
                 } else {
-                    console.log(i);
                     paginatedOccurrencesList.push(tempOccurrencesInThisPage);
                     tempOccurrencesInThisPage = [occurrencesData[i]];
                 }
@@ -90,9 +84,6 @@ class App extends React.Component {
                     paginatedOccurrencesList.push(tempOccurrencesInThisPage);
                 }
             }
-
-            console.log(paginatedOccurrencesList);
-
 
             this.setState({
                 occurrences: response.data,
@@ -122,10 +113,8 @@ class App extends React.Component {
         for (let i = 0; i < occurrencesData.length; i++) {
 
             if (i === 0 || i % 4 !== 0) {
-                console.log(i);
                 tempOccurrencesInThisPage.push(occurrencesData[i]);
             } else {
-                console.log(i);
                 paginatedOccurrencesList.push(tempOccurrencesInThisPage);
                 tempOccurrencesInThisPage = [occurrencesData[i]];
             }
@@ -158,19 +147,7 @@ class App extends React.Component {
         let htmlEntity = selectedPage.slice(0, 1);
         let innerText = selectedPage;
 
-
-        console.log(this.state.totalNumberOfFacts);
-
-
-        const occurrencesData = this.state.occurrences.data[this.state.selectedTab];
-
-
         if (htmlEntity === '«') {
-            console.log('Previous has been selected');
-
-
-
-
 
             // Check if there is a previous section
             if (!this.state.paginationObj.startingPageInPreviousSection) {
@@ -180,16 +157,7 @@ class App extends React.Component {
                 return;
             }
 
-
-
-
-
-            // console.log('startingPageInPreviousSection after clicking previous: ', paginationObj.startingPageInPreviousSection);
-
-
             const occurrencesInThisPage = this.state.paginatedOccurrencesList[this.state.paginationObj.startingPageInPreviousSection - 1];
-
-            console.log('OccurrencesInThisPage after clicking previous: ', this.state.occurrencesInThisPage);
 
             this.setState({
                 currentPage: this.state.paginationObj.startingPageInPreviousSection,
@@ -206,7 +174,6 @@ class App extends React.Component {
 
 
         } else if (htmlEntity === '»') {
-            console.log('Next has been selected');
 
 
 
@@ -218,15 +185,7 @@ class App extends React.Component {
                 return;
             }
 
-
-
-            // console.log(paginationObj);
-
-            // console.log('startingPageInPreviousSection after clicking next: ', paginationObj.startingPageInNextSection);
-
             const occurrencesInThisPage = this.state.paginatedOccurrencesList[this.state.paginationObj.startingPageInNextSection - 1];
-
-            console.log('OccurrencesInThisPage after clicking next: ', this.state.occurrencesInThisPage);
 
             this.setState({
                 currentPage: this.state.paginationObj.startingPageInNextSection,
@@ -244,8 +203,6 @@ class App extends React.Component {
         } else {
 
             const occurrencesInThisPage = this.state.paginatedOccurrencesList[parseInt(innerText) - 1];
-
-            console.log('OccurrencesInThisPage after clicking a page: ', this.state.occurrencesInThisPage);
 
             this.setState({
                 paginationObj: pagination(

@@ -14,15 +14,12 @@ class OccurrencesContainer extends React.Component {
     }
 
     occurrencesGroupJSXCreator(occurrences, selectedTab, date, occurrencesInThisPage) {
-        console.log(occurrences);
         if (!occurrences) {
             return (
-                <div className="text-center">
-                    <i class="fas fa-spinner fa-spin fa-10x"></i>
+                <div className="spinner text-center">
+                    <i className="fas fa-spinner fa-spin fa-10x"></i>
                 </div>
             );
-
-            // return <div>Data Loading...</div>;
         } else if (!Object.keys(occurrences).length) {
             return <div></div>;
         } else if (!Object.keys(occurrences.data[selectedTab]).length) {
@@ -30,11 +27,6 @@ class OccurrencesContainer extends React.Component {
         } else if (Object.keys(occurrences)[0] === 'errorMessage') {
             return <div>{occurrences.errorMessage}</div>;
         }
-
-
-        // occurrences = occurrences.data[selectedTab];
-
-        console.log(occurrencesInThisPage);
 
         const occurrencesContainer = [];
         let tempList = [];

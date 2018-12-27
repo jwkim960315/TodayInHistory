@@ -1,6 +1,5 @@
 .title {
     text-align: center;
-    /*color: white;*/
 }
 
 body {
@@ -9,9 +8,7 @@ body {
 
 body {
     content: "";
-    /*background: url(../images/double-decker-3283422_1920.jpg);*/
     background-repeat: repeat-y;
-    /*opacity: 0.35;*/
     top: 0;
     left: 0;
     bottom: 0;
