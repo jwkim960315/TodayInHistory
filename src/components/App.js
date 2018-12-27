@@ -89,6 +89,7 @@ class App extends React.Component {
                 occurrences: response.data,
                 types: Object.keys(response.data.data),
                 date: response.data.date,
+                selectedTab: 'Events',
                 totalNumberOfFacts: occurrencesData.length,
                 paginationObj,
                 paginatedOccurrencesList,
