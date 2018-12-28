@@ -5,7 +5,6 @@ class OccurrencesTab extends React.Component {
         super(props);
         this.tabJSXCreator = this.tabJSXCreator.bind(this);
         this.state = {
-            selectedTab: '',
             tabColors: ['info', 'success', 'dark'],
             tabActivity: ['', '', '']
         }

@@ -24,7 +24,7 @@ class App extends React.Component {
 
         this.state = {
             occurrences: {},
-            occurrencesInThisPage: [],
+            occurrencesOnThisPage: [],
             date: null,
             selectedTab: 'Events',
             types: [],
@@ -65,35 +65,33 @@ class App extends React.Component {
                 this.state.totalNumberOfFacts,
                 this.state.numberOfFactsPerPageLimit,
                 this.state.numberOfPagesPerSectionLimit,
-                this.state.currentPage
+                1
             );
 
-            let tempOccurrencesInThisPage = [];
+            let tempList = [];
             let paginatedOccurrencesList = [];
 
             for (let i = 0; i < occurrencesData.length; i++) {
 
                 if (i === 0 || i % 4 !== 0) {
-                    tempOccurrencesInThisPage.push(occurrencesData[i]);
+                    tempList.push(occurrencesData[i]);
                 } else {
-                    paginatedOccurrencesList.push(tempOccurrencesInThisPage);
-                    tempOccurrencesInThisPage = [occurrencesData[i]];
-                }
-
-                if (i === occurrencesData.length - 1) {
-                    paginatedOccurrencesList.push(tempOccurrencesInThisPage);
+                    paginatedOccurrencesList.push(tempList);
+                    tempList = [occurrencesData[i]];
                 }
             }
+            paginatedOccurrencesList.push(tempList);
 
             this.setState({
                 occurrences: response.data,
+                currentPage: 1,
                 types: Object.keys(response.data.data),
                 date: response.data.date,
                 selectedTab: 'Events',
                 totalNumberOfFacts: occurrencesData.length,
                 paginationObj,
                 paginatedOccurrencesList,
-                occurrencesInThisPage: paginatedOccurrencesList[0]
+                occurrencesOnThisPage: paginatedOccurrencesList[0]
             });
         } catch (error) {
 
@@ -116,22 +114,19 @@ class App extends React.Component {
     onTabSelect(e) {
         let occurrencesData = this.state.occurrences.data[e.target.innerHTML];
 
-        let tempOccurrencesInThisPage = [];
+        let tempList = [];
         let paginatedOccurrencesList = [];
 
         for (let i = 0; i < occurrencesData.length; i++) {
 
             if (i === 0 || i % 4 !== 0) {
-                tempOccurrencesInThisPage.push(occurrencesData[i]);
+                tempList.push(occurrencesData[i]);
             } else {
-                paginatedOccurrencesList.push(tempOccurrencesInThisPage);
-                tempOccurrencesInThisPage = [occurrencesData[i]];
-            }
-
-            if (i === occurrencesData.length - 1) {
-                paginatedOccurrencesList.push(tempOccurrencesInThisPage);
+                paginatedOccurrencesList.push(tempList);
+                tempList = [occurrencesData[i]];
             }
         }
+        paginatedOccurrencesList.push(tempList);
 
         const paginationObj = pagination(
             this.state.totalNumberOfFacts,
@@ -141,12 +136,12 @@ class App extends React.Component {
         );
 
         this.setState({
-            selectedTab: e.target.innerHTML,
             currentPage: 1,
+            selectedTab: e.target.innerHTML,
             totalNumberOfFacts: occurrencesData.length,
             paginationObj,
             paginatedOccurrencesList,
-            occurrencesInThisPage: paginatedOccurrencesList[0]
+            occurrencesOnThisPage: paginatedOccurrencesList[0]
         });
     }
 
@@ -166,7 +161,7 @@ class App extends React.Component {
                 return;
             }
 
-            const occurrencesInThisPage = this.state.paginatedOccurrencesList[this.state.paginationObj.startingPageInPreviousSection - 1];
+            const occurrencesOnThisPage = this.state.paginatedOccurrencesList[this.state.paginationObj.startingPageInPreviousSection - 1];
 
             this.setState({
                 currentPage: this.state.paginationObj.startingPageInPreviousSection,
@@ -176,7 +171,7 @@ class App extends React.Component {
                     this.state.numberOfPagesPerSectionLimit,
                     this.state.paginationObj.startingPageInPreviousSection
                 ),
-                occurrencesInThisPage
+                occurrencesOnThisPage
             });
 
 
@@ -194,7 +189,7 @@ class App extends React.Component {
                 return;
             }
 
-            const occurrencesInThisPage = this.state.paginatedOccurrencesList[this.state.paginationObj.startingPageInNextSection - 1];
+            const occurrencesOnThisPage = this.state.paginatedOccurrencesList[this.state.paginationObj.startingPageInNextSection - 1];
 
             this.setState({
                 currentPage: this.state.paginationObj.startingPageInNextSection,
@@ -204,14 +199,14 @@ class App extends React.Component {
                     this.state.numberOfPagesPerSectionLimit,
                     this.state.paginationObj.startingPageInNextSection
                 ),
-                occurrencesInThisPage
+                occurrencesOnThisPage
             });
 
 
 
         } else {
 
-            const occurrencesInThisPage = this.state.paginatedOccurrencesList[parseInt(innerText) - 1];
+            const occurrencesOnThisPage = this.state.paginatedOccurrencesList[parseInt(innerText) - 1];
 
             this.setState({
                 paginationObj: pagination(
@@ -220,7 +215,7 @@ class App extends React.Component {
                     this.state.numberOfPagesPerSectionLimit,
                     parseInt(innerText)
                 ),
-                occurrencesInThisPage,
+                occurrencesOnThisPage,
                 currentPage: parseInt(innerText)
             })
 
@@ -245,7 +240,7 @@ class App extends React.Component {
                             occurrences={this.state.occurrences}
                             selectedTab={this.state.selectedTab}
                             date={this.state.date}
-                            occurrencesInThisPage={this.state.occurrencesInThisPage}
+                            occurrencesOnThisPage={this.state.occurrencesOnThisPage}
                         />
                     </div>
                 </div>
