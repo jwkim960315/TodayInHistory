@@ -1,18 +1,19 @@
 .title {
     text-align: center;
+    margin-top: 20px;
 }
 
 body {
     font-family: 'Varela Round', sans-serif;
 }
 
-body {
-    content: "";
-    background-repeat: repeat-y;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    z-index: -1;
-}
+/*body {*/
+    /*content: "";*/
+    /*background-repeat: repeat-y;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*bottom: 0;*/
+    /*right: 0;*/
+    /*position: absolute;*/
+    /*z-index: -1;*/
+/*}*/
