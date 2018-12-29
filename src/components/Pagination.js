@@ -16,8 +16,6 @@ class Pagination extends React.Component {
 
     }
 
-
-
     pageJSX(pageNum, currentPageNum) {
 
         const currentPageActive = (pageNum === currentPageNum) ? 'active' : '';
@@ -31,7 +29,7 @@ class Pagination extends React.Component {
         );
     }
 
-    paginationDataHandlerJSX(occurrences, selectedTab, paginationObj, numOfFactsPerPage, numOfPagesPerSection) {
+    paginationDataHandlerJSX(selectedTab, paginationObj, currentPage) {
 
         let jsxContainer = [];
 
@@ -50,11 +48,9 @@ class Pagination extends React.Component {
                       </button>
                     </li>
                 );
-
-
             }
 
-            jsxContainer.push(this.pageJSX(i, this.props.currentPage));
+            jsxContainer.push(this.pageJSX(i, currentPage));
 
             if (i === paginationObj.endingPageInThisSection) {
 
@@ -79,32 +75,27 @@ class Pagination extends React.Component {
         return jsxContainer;
     }
 
-    paginationRenderHelper(occurrences, selectedTab, paginationObj, numberOfFactsPerPageLimit, numberOfPagesPerSectionLimit) {
-        if (!occurrences || Object.keys(occurrences)[0] === 'errorMessage' || !Object.keys(occurrences).length || !Object.keys(occurrences.data[selectedTab]).length) {
+    paginationRenderHelper(occurrencesOnThisPage, selectedTab, paginationObj, currentPage) {
+        if (!occurrencesOnThisPage || Object.keys(occurrencesOnThisPage)[0] === 'errorMessage' || Object.keys(occurrencesOnThisPage)[0] === 'noData') {
             return <div></div>;
         }
-
-        occurrences = occurrences.data[selectedTab];
 
         return (
             <nav className="page-navigation" aria-label="page-navigation">
               <ul className="pagination justify-content-center">
-                {this.paginationDataHandlerJSX(occurrences,selectedTab,paginationObj,numberOfFactsPerPageLimit,numberOfPagesPerSectionLimit)}
+                {this.paginationDataHandlerJSX(selectedTab,paginationObj,currentPage)}
               </ul>
             </nav>
         );
     }
 
     render() {
-
-
         return (
             this.paginationRenderHelper(
-                this.props.occurrences,
+                this.props.occurrencesOnThisPage,
                 this.props.selectedTab,
                 this.props.paginationObj,
-                this.props.numberOfFactsPerPageLimit,
-                this.props.numberOfPagesPerSectionLimit
+                this.props.currentPage
             )
         );
     }

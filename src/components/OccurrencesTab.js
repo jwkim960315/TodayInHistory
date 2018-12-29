@@ -5,12 +5,11 @@ class OccurrencesTab extends React.Component {
         super(props);
         this.tabJSXCreator = this.tabJSXCreator.bind(this);
         this.state = {
-            tabColors: ['info', 'success', 'dark'],
-            tabActivity: ['', '', '']
+            tabColors: ['info', 'success', 'dark']
         }
     }
 
-    tabJSXCreator(types, tabColors, tabActivity) {
+    tabJSXCreator(types, tabColors) {
         if (types === 0 || !types) {
             return <div></div>;
         }
@@ -20,7 +19,7 @@ class OccurrencesTab extends React.Component {
             return (
                 <a
 						key={i} 
-						className={`nav-item nav-link flex-sm-fill text-sm-center btn-outline-${this.state.tabColors[i]} ${isActive}`} 
+						className={`nav-item nav-link flex-sm-fill text-sm-center btn-outline-${tabColors[i]} ${isActive}`}
 						id="events-tab" 
 						data-toggle="tab" 
 						href="#events" 
@@ -39,7 +38,7 @@ class OccurrencesTab extends React.Component {
         return (
             <nav className="nav-pills flex-column flex-sm-row">
 					<div className="nav nav-tabs" id="nav-tab" role="tablist">
-						{this.tabJSXCreator(this.props.types,this.state.tabColors,this.state.tabActivity)}
+						{this.tabJSXCreator(this.props.types,this.state.tabColors)}
 					</div>
 				</nav>
         );

@@ -44,13 +44,13 @@ class App extends React.Component {
         try {
             todayInHistory.interceptors.request.use(config => {
                 this.setState({
-                    occurrences: null,
+                    occurrencesOnThisPage: null,
                     types: null
                 })
                 return config;
             }, err => {
                 this.setState({
-                    occurrences: { errorMessage: err.message },
+                    occurrencesOnThisPage: { errorMessage: err.message },
                     types: null
                 });
 
@@ -103,7 +103,7 @@ class App extends React.Component {
             }
 
             this.setState({
-                occurrences: { errorMessage },
+                occurrencesOnThisPage: { errorMessage },
                 types: null
             });
         }
@@ -135,13 +135,16 @@ class App extends React.Component {
             1
         );
 
+        // Check if there is any data
+        const occurrencesOnThisPage = (!paginatedOccurrencesList[0].length) ? { noData: '' } : paginatedOccurrencesList[0];
+
         this.setState({
             currentPage: 1,
             selectedTab: e.target.innerHTML,
             totalNumberOfFacts: occurrencesData.length,
             paginationObj,
             paginatedOccurrencesList,
-            occurrencesOnThisPage: paginatedOccurrencesList[0]
+            occurrencesOnThisPage
         });
     }
 
@@ -178,9 +181,6 @@ class App extends React.Component {
 
 
         } else if (htmlEntity === '»') {
-
-
-
             // Check if there is a next section
             if (!this.state.paginationObj.startingPageInNextSection) {
                 this.setState({
@@ -236,22 +236,21 @@ class App extends React.Component {
                 />
                 <div className="row">
                     <div className="col">
-                        <OccurrencesContainer 
-                            occurrences={this.state.occurrences}
+                        <OccurrencesContainer
                             selectedTab={this.state.selectedTab}
                             date={this.state.date}
                             occurrencesOnThisPage={this.state.occurrencesOnThisPage}
                         />
                     </div>
                 </div>
-                <Pagination 
-                    occurrences={this.state.occurrences}
+                <Pagination
                     selectedTab={this.state.selectedTab}
                     onPageSelect={this.onPageSelect} 
                     paginationObj={this.state.paginationObj}
                     numberOfFactsPerPageLimit={this.state.numberOfFactsPerPageLimit}
                     numberOfPagesPerSectionLimit={this.state.numberOfPagesPerSectionLimit}
                     currentPage={this.state.currentPage}
+                    occurrencesOnThisPage={this.state.occurrencesOnThisPage}
                 />
             </div>
 

@@ -14,32 +14,29 @@ class OccurrencesContainer extends React.Component {
     }
 
     occurrencesGroupJSXCreator(occurrences, selectedTab, date, occurrencesOnThisPage) {
+
         try {
-            if (!occurrences) {
+            if (!occurrencesOnThisPage) {
                 return (
                     <div className="spinner text-center">
                         <i className="fas fa-spinner fa-spin fa-10x"></i>
                     </div>
                 );
-            } else if (!Object.keys(occurrences).length) {
-                return <div></div>;
-            } else if (!occurrencesOnThisPage) {
+            } else if (Object.keys(occurrencesOnThisPage)[0] === 'noData') {
                 return <div className="error-message text-center">Nothing happened on this date!</div>;
-            } else if (Object.keys(occurrences)[0] === 'errorMessage') {
-                return <div className="error-message text-center">{occurrences.errorMessage}</div>;
+            } else if (Object.keys(occurrencesOnThisPage)[0] === 'errorMessage') {
+                return <div className="error-message text-center">{occurrencesOnThisPage.errorMessage}</div>;
             }
 
             const occurrencesContainer = [];
             let tempList = [];
+
             for (let i = 0; i < occurrencesOnThisPage.length; i++) {
                 tempList.push(occurrencesOnThisPage[i]);
                 if ((i % 2 === 1 && i !== 0) || i === this.props.occurrencesOnThisPage.length - 1) {
                     occurrencesContainer.push(<OccurrencesGroup key={i} twoOccurrencesArr={tempList} date={date} />);
                     tempList = [];
                 }
-
-
-
             }
             return occurrencesContainer;
         } catch (err) {

@@ -15,7 +15,7 @@ const Occurrence = ({ occurrence, date }) => {
     } else {
         dateYear = `${date}, ${occurrence.year}`;
     }
-    return (<div className="col-sm-6">
+    return (<div className="card-container col-sm-6">
 				<div className="card">
 				  <div className="card-header">
 				    {dateYear}

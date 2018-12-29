@@ -1,8 +1,12 @@
-.card {
+.card-container {
     margin-top: 10px;
+}
+.card {
+    height: 100%;
+    width: 100%;
 }
 
 .card-body {
-    overflow-y: scroll;
-    height: 150px;
+    height: 100%;
+    width: 100%;
 }
