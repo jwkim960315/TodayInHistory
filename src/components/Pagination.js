@@ -17,7 +17,6 @@ class Pagination extends React.Component {
     }
 
     pageJSX(pageNum, currentPageNum) {
-
         const currentPageActive = (pageNum === currentPageNum) ? 'active' : '';
 
         return (
@@ -30,13 +29,10 @@ class Pagination extends React.Component {
     }
 
     paginationDataHandlerJSX(selectedTab, paginationObj, currentPage) {
-
         let jsxContainer = [];
 
         for (let i = paginationObj.startingPageInThisSection; i <= paginationObj.endingPageInThisSection; i++) {
-
             if (i === paginationObj.startingPageInThisSection) {
-
                 const previousButtonDisabled = (!paginationObj.startingPageInPreviousSection) ? 'disabled' : '';
                 const previousTabIndex = (!paginationObj.startingPageInNextSection) ? -1 : '';
 
@@ -53,7 +49,6 @@ class Pagination extends React.Component {
             jsxContainer.push(this.pageJSX(i, currentPage));
 
             if (i === paginationObj.endingPageInThisSection) {
-
                 const nextButtonDisabled = (!paginationObj.startingPageInNextSection) ? 'disabled' : '';
                 const nextTabIndex = (!paginationObj.startingPageInNextSection) ? -1 : '';
 

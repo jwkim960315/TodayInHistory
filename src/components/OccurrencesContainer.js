@@ -6,7 +6,6 @@ import React from 'react';
 // Components
 import OccurrencesGroup from './OccurrencesGroup';
 
-
 class OccurrencesContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -14,7 +13,6 @@ class OccurrencesContainer extends React.Component {
     }
 
     occurrencesGroupJSXCreator(occurrences, selectedTab, date, occurrencesOnThisPage) {
-
         try {
             if (!occurrencesOnThisPage) {
                 return (

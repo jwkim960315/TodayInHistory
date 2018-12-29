@@ -72,7 +72,6 @@ class App extends React.Component {
             let paginatedOccurrencesList = [];
 
             for (let i = 0; i < occurrencesData.length; i++) {
-
                 if (i === 0 || i % 4 !== 0) {
                     tempList.push(occurrencesData[i]);
                 } else {
@@ -94,7 +93,6 @@ class App extends React.Component {
                 occurrencesOnThisPage: paginatedOccurrencesList[0]
             });
         } catch (error) {
-
             let errorMessage = 'Unknown Error';
             const errorCode = error.message.slice(error.message.length - 3);
 
@@ -155,7 +153,6 @@ class App extends React.Component {
         let innerText = selectedPage;
 
         if (htmlEntity === '«') {
-
             // Check if there is a previous section
             if (!this.state.paginationObj.startingPageInPreviousSection) {
                 this.setState({
@@ -176,10 +173,6 @@ class App extends React.Component {
                 ),
                 occurrencesOnThisPage
             });
-
-
-
-
         } else if (htmlEntity === '»') {
             // Check if there is a next section
             if (!this.state.paginationObj.startingPageInNextSection) {
@@ -201,11 +194,7 @@ class App extends React.Component {
                 ),
                 occurrencesOnThisPage
             });
-
-
-
         } else {
-
             const occurrencesOnThisPage = this.state.paginatedOccurrencesList[parseInt(innerText) - 1];
 
             this.setState({
@@ -218,8 +207,6 @@ class App extends React.Component {
                 occurrencesOnThisPage,
                 currentPage: parseInt(innerText)
             })
-
-
         }
     }
 
@@ -253,7 +240,6 @@ class App extends React.Component {
                     occurrencesOnThisPage={this.state.occurrencesOnThisPage}
                 />
             </div>
-
         );
     }
 };
